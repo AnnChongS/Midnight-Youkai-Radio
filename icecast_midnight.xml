@@ -1,0 +1,69 @@
+<icecast>
+    <location>Midnight Youkai Radio</location>
+    <admin>midnight@youkai.local</admin>
+    <hostname>localhost</hostname>
+
+    <limits>
+        <clients>200</clients>
+        <sources>4</sources>
+        <queue-size>1048576</queue-size>
+        <client-timeout>60</client-timeout>
+        <header-timeout>30</header-timeout>
+        <source-timeout>30</source-timeout>
+        <burst-on-connect>1</burst-on-connect>
+        <burst-size>65536</burst-size>
+    </limits>
+
+    <authentication>
+        <source-password>CHANGEME</source-password>
+        <relay-password>CHANGEME</relay-password>
+        <admin-user>admin</admin-user>
+        <admin-password>CHANGEME</admin-password>
+    </authentication>
+
+    <listen-socket>
+        <port>8001</port>
+        <bind-address>0.0.0.0</bind-address>
+    </listen-socket>
+
+    <http-headers>
+        <header name="Access-Control-Allow-Origin" value="*" />
+        <header name="Access-Control-Allow-Headers" value="Content-Type,Icy-MetaData" />
+    </http-headers>
+
+    <mount>
+        <mount-name>/midnight</mount-name>
+        <max-listener-duration>0</max-listener-duration>
+        <public>0</public>
+        <charset>UTF-8</charset>
+        <burst-size>65536</burst-size>
+        <queue-size>1048576</queue-size>
+    </mount>
+
+    <mount>
+        <mount-name>/midnight-cn</mount-name>
+        <max-listener-duration>0</max-listener-duration>
+        <public>0</public>
+        <charset>UTF-8</charset>
+        <burst-size>65536</burst-size>
+        <queue-size>1048576</queue-size>
+    </mount>
+
+    <fileserve>1</fileserve>
+
+    <paths>
+        <basedir>/usr/share/icecast2</basedir>
+        <logdir>LOGDIR_PLACEHOLDER</logdir>
+        <webroot>/usr/share/icecast2/web</webroot>
+        <adminroot>/usr/share/icecast2/admin</adminroot>
+        <alias source="/" destination="/status.xsl"/>
+    </paths>
+
+    <logging>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
+        <loglevel>2</loglevel>
+        <logsize>10485760</logsize>
+    </logging>
+
+    </icecast>

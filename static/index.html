@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#05060e">
+<title>東方幻想夜行 · Midnight Youkai Radio</title>
+<meta name="description" content="Touhou Eurobeat, 24/7, from a JDM touge drift meet on Youkai Mountain.">
+<link rel="icon" href="/favicon.ico" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=DotGothic16&family=Michroma&family=Shippori+Mincho:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="torii" viewBox="0 0 64 48" aria-hidden="true">
+      <path d="M4 8 H60 M10 14 H54 M16 8 V46 M48 8 V46 M14 16 V40 M50 16 V40" />
+      <path d="M2 6 Q32 14 62 6" />
+    </svg>
+    <div class="brand-text">
+      <span class="brand-jp">東方幻想夜行</span>
+      <span class="brand-en">MIDNIGHT YOUKAI RADIO</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a class="lang-switch" id="lang-switch" href="/cn">中文</a>
+    <div class="live" id="live"><span class="dot"></span><span id="live-label">CONNECTING</span></div>
+    <div class="stat"><b id="listeners">–</b><span data-i18n="listeners">LISTENERS</span></div>
+    <div class="stat"><b id="clock">--:--</b><span id="clock-zone">SGT</span></div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="hero-head">
+      <span class="chip" id="char-chip">--</span>
+      <span class="onair"><i></i><span data-i18n="onair">NOW ON AIR</span></span>
+    </div>
+
+    <div class="track">
+      <h1 id="track-title">Tuning the touge…</h1>
+      <p class="track-meta"><span id="track-artist">Midnight Youkai Radio</span><em id="track-album"></em></p>
+    </div>
+
+    <div class="gauge">
+      <div class="gauge-wrap">
+        <svg id="tach" viewBox="0 0 420 250" aria-hidden="true">
+          <defs>
+            <linearGradient id="needleGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff2e4d"/><stop offset="100%" stop-color="#ffd166"/>
+            </linearGradient>
+            <filter id="needleGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff2e4d" flood-opacity="0.85"/>
+            </filter>
+          </defs>
+          <g id="tach-ticks"></g>
+          <path class="redline" id="tach-redline" d=""/>
+          <g id="tach-needle" filter="url(#needleGlow)">
+            <path d="M210 214 L204 206 L210 74 L216 206 Z" fill="url(#needleGrad)"/>
+            <circle cx="210" cy="212" r="15" fill="#0b0e1c" stroke="#ff2e4d" stroke-width="2.5"/>
+            <circle cx="210" cy="212" r="5" fill="#ff2e4d"/>
+          </g>
+          <text class="gauge-num" x="52" y="228" text-anchor="middle">0</text>
+          <text class="gauge-num" x="368" y="228" text-anchor="middle">10</text>
+          <text class="gauge-label" x="210" y="184" text-anchor="middle" id="gauge-label">EUROBEAT</text>
+        </svg>
+        <div class="gauge-readout">
+          <div class="rd"><span id="elapsed">0:00</span><small data-i18n="elapsed">ELAPSED</small></div>
+          <div class="rd gear"><span id="gear">3</span><small data-i18n="gear">GEAR</small></div>
+          <div class="rd"><span id="total">0:00</span><small data-i18n="length">LENGTH</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dj" id="dj">
+      <div class="dj-head">
+        <span class="dj-badge">夜雀</span>
+        <div class="dj-who">
+          <b id="dj-name">Mystia Lorelei</b>
+          <small id="dj-role">NIGHT SPARROW · DJ</small>
+        </div>
+        <button id="dj-replay" title="Replay the DJ voice" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 1 2.4 5.7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 20v-5h5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <span>REPLAY</span>
+        </button>
+      </div>
+      <p class="dj-text" id="dj-text">—</p>
+    </div>
+
+    <div class="controls">
+      <button id="play" class="ignition" type="button" aria-label="Play">
+        <span class="ign-ring"></span>
+        <span id="play-icon" class="ign-icon">▶</span>
+        <span class="ign-label" id="play-label">IGNITION</span>
+      </button>
+      <div class="fader">
+        <label for="vol" data-i18n="volume">THROTTLE</label>
+        <input id="vol" type="range" min="0" max="100" value="80">
+        <span id="vol-val">80</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage">
+    <div class="stage-glow" id="stage-glow"></div>
+    <div class="youkai" id="char-art"></div>
+    <div class="stage-caption">
+      <span id="char-name">—</span>
+      <small id="char-epithet"></small>
+    </div>
+    <div class="stage-net" aria-hidden="true"></div>
+  </section>
+
+  <aside class="side">
+    <section class="panel">
+      <h2 data-i18n="upnext">UP NEXT <span class="jp">次の曲</span></h2>
+      <ul id="queue-list" class="list"><li class="muted">building the next set…</li></ul>
+    </section>
+    <section class="panel">
+      <h2 data-i18n="driftlog">DRIFT LOG <span class="jp">走行記録</span></h2>
+      <ul id="history-list" class="list"><li class="muted">no laps yet</li></ul>
+    </section>
+    <section class="panel viz-panel">
+      <h2 data-i18n="viz">DANMAKU ANALYSER <span class="jp">弾幕</span></h2>
+      <canvas id="viz"></canvas>
+      <div class="viz-foot">
+        <span id="viz-bpm">BPM --</span>
+        <span id="viz-state">IDLE</span>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <div class="ticker"><div class="ticker-run" id="ticker-run"></div></div>
+  <div class="footer-note" data-i18n="footer">東方 PROJECT × EUROBEAT · 深夜の峠 · 幻想郷から生放送</div>
+</footer>
+
+<audio id="audio" preload="none"></audio>
+<script src="/static/art.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

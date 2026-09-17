@@ -1,0 +1,32 @@
+# Runtime
+cache/
+state/
+logs/
+pids/
+vendor/
+__pycache__/
+*.pyc
+
+# Temp
+*.tmp
+*.part
+*.lock
+*_test.*
+.b*.py
+.dt*.py
+style.css.bak
+
+# Audio library (user downloads)
+Touhou_Eurobeat/
+
+# IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
